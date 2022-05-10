@@ -21,12 +21,20 @@ class Main extends React.Component {
     fetch('http://localhost:5000/upload', {
       method: 'POST',
       body: data,
-      headers: {'Access-Control-Allow-Origin': "*"}
-    }).then((response) => {
-      response.json().then((body) => {
-        this.setState({ URL: `http://localhost:5000/${body.file}` });
-      });
+      headers: {
+        'Access-Control-Allow-Origin': "*"}
+    }).then((response) => response.json())
+    .then((result) => {
+      console.log('Success:', result);
+    })
+    .then((body) => {
+      this.setState({ URL: `http://localhost:5000/${body.file}` });
+    })
+    .catch((error) => {
+      console.error('Error:', error);
     });
+    
+    
   }
 
   render() {
