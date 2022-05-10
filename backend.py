@@ -7,7 +7,7 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-logger = logging.getLogger('HELLO WORLD')
+logger = logging.getLogger('HELLO USER')
 
 # s3 = boto3.client('s3',)
 
@@ -26,7 +26,7 @@ def fileUpload():
     target=os.path.join(UPLOAD_FOLDER,'test_docs')
     if not os.path.isdir(target):
         os.mkdir(target)
-    logger.info("welcome to upload`")
+    logger.info("welcome to the local upload`")
     file = request.files['file'] 
     filename = secure_filename(file.filename)
     destination="/".join([target, filename])

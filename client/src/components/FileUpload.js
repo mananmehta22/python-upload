@@ -5,7 +5,7 @@ class Main extends React.Component {
     super(props);
 
     this.state = {
-      URL: '',
+      URL: ''
     };
 
     this.handleUpload = this.handleUpload.bind(this);
@@ -23,12 +23,10 @@ class Main extends React.Component {
       body: data,
       headers: {
         'Access-Control-Allow-Origin': "*"}
-    }).then((response) => response.json())
-    .then((result) => {
-      console.log('Success:', result);
-    })
+    }).then((response) => response.body)
     .then((body) => {
       this.setState({ URL: `http://localhost:5000/${body.file}` });
+      console.log('Successfully uploaded locally')
     })
     .catch((error) => {
       console.error('Error:', error);
