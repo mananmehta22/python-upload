@@ -18,11 +18,12 @@ BUCKET_NAME = 'enter-your-bucket_name-here'
 UPLOAD_FOLDER = './client/uploads'
 
 app = Flask(__name__)
+CORS(app, expose_headers='Authorization', resources={r"/upload/*": {"origins": "*"}})
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/upload', methods=['POST'])
 def fileUpload():
-    target=os.path.join(UPLOAD_FOLDER,'uploads')
+    target=os.path.join(UPLOAD_FOLDER,'test_docs')
     if not os.path.isdir(target):
         os.mkdir(target)
     logger.info("welcome to upload`")
@@ -32,6 +33,7 @@ def fileUpload():
     file.save(destination)
     session['uploadFilePath']=destination
     response="Whatever you wish too return"
+
     return response
 
 if __name__ == "__main__":
@@ -39,4 +41,3 @@ if __name__ == "__main__":
     app.run(debug=True,host="0.0.0.0",use_reloader=False)
 
 
-CORS(app, expose_headers='Authorization', resources={r"/upload/*": {"origins": "*"}})

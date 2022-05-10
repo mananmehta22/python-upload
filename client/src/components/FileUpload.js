@@ -21,6 +21,7 @@ class Main extends React.Component {
     fetch('http://localhost:5000/upload', {
       method: 'POST',
       body: data,
+      headers: {'Access-Control-Allow-Origin': "*"}
     }).then((response) => {
       response.json().then((body) => {
         this.setState({ URL: `http://localhost:5000/${body.file}` });
