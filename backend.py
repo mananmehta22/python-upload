@@ -4,17 +4,23 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 import boto3
 import logging
+from dotenv import load_dotenv
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 
 logger = logging.getLogger('HELLO USER')
 
-# s3 = boto3.client('s3',)
+access_key_id = os.getenv('AWSAccessKeyId')
+secret_key = os.getenv('AWSSecretKey')
 
 
+s3 = boto3.client('s3',
+                    aws_access_key_id = access_key_id,
+                    aws_secret_access_key = secret_key)
 
 
-BUCKET_NAME = 'enter-your-bucket_name-here'
+BUCKET_NAME = 'aws-python-upload'
 UPLOAD_FOLDER = './client/uploads'
 
 app = Flask(__name__)
@@ -31,10 +37,14 @@ def fileUpload():
     filename = secure_filename(file.filename)
     destination="/".join([target, filename])
     file.save(destination)
+    s3.upload_file(Bucket = BUCKET_NAME,
+        Filename = destination,
+        Key = filename)
     session['uploadFilePath']=destination
+    msg = 'Upload Successful'
     response="Whatever you wish too return"
 
-    return response
+    return response, msg 
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)
